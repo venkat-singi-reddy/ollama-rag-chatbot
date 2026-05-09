@@ -11,7 +11,9 @@ public class OllamaModelConfig {
     @Bean
     ChatLanguageModel chatLanguageModel(AnythingLlmProperties properties) {
         if (!"ollama".equalsIgnoreCase(properties.llmProvider())) {
-            throw new IllegalStateException("LLM_PROVIDER must be set to ollama for this service");
+            throw new IllegalStateException(
+                    "anythingllm.llm-provider must be 'ollama' (current: '" + properties.llmProvider() + "')"
+            );
         }
 
         OllamaChatModel.OllamaChatModelBuilder builder = OllamaChatModel.builder()
