@@ -2,11 +2,22 @@ server:
   port: ${SERVER_PORT:8080}
 
 anythingllm:
+  # LLM backend
   llm-provider: ${LLM_PROVIDER:ollama}
   ollama-base-path: ${OLLAMA_BASE_PATH:http://localhost:11434}
   ollama-model-pref: ${OLLAMA_MODEL_PREF:llama3.1}
   ollama-model-token-limit: ${OLLAMA_MODEL_TOKEN_LIMIT:4096}
+
+  # Embedding backend (Ollama)
   embedding-engine: ${EMBEDDING_ENGINE:ollama}
   embedding-base-path: ${EMBEDDING_BASE_PATH:http://localhost:11434}
   embedding-model-pref: ${EMBEDDING_MODEL_PREF:nomic-embed-text:latest}
-  vector-db: ${VECTOR_DB:lancedb}
+
+  # Vector DB (ChromaDB)
+  vector-db: ${VECTOR_DB:chroma}
+  chroma-base-url: ${CHROMA_BASE_URL:http://localhost:8000}
+  chroma-collection: ${CHROMA_COLLECTION:rag-documents}
+
+  # RAG retrieval settings
+  rag-max-results: ${RAG_MAX_RESULTS:5}
+  rag-min-score: ${RAG_MIN_SCORE:0.7}

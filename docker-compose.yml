@@ -1,0 +1,72 @@
+version: "3.9"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Ollama RAG Chatbot – Docker Compose
+#
+# Services:
+#   chromadb   – ChromaDB vector store (port 8000)
+#   chatbot    – Spring Boot RAG API   (port 8080)
+#
+# Prerequisite: Ollama must be running on the host at port 11434.
+#   Install: https://ollama.com
+#   Pull models before starting:
+#     ollama pull llama3.1
+#     ollama pull nomic-embed-text
+# ─────────────────────────────────────────────────────────────────────────────
+
+services:
+
+  # ── ChromaDB ──────────────────────────────────────────────────────────────
+  chromadb:
+    image: chromadb/chroma:0.5.20
+    container_name: chromadb
+    ports:
+      - "8000:8000"
+    volumes:
+      - chroma_data:/chroma/.chroma/index
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/heartbeat"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  # ── Spring Boot RAG API ───────────────────────────────────────────────────
+  chatbot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ollama-rag-chatbot
+    ports:
+      - "8080:8080"
+    depends_on:
+      chromadb:
+        condition: service_healthy
+    environment:
+      # LLM – point to Ollama on the Docker host
+      LLM_PROVIDER: ollama
+      OLLAMA_BASE_PATH: http://host.docker.internal:11434
+      OLLAMA_MODEL_PREF: llama3.1
+      OLLAMA_MODEL_TOKEN_LIMIT: 4096
+
+      # Embedding
+      EMBEDDING_ENGINE: ollama
+      EMBEDDING_BASE_PATH: http://host.docker.internal:11434
+      EMBEDDING_MODEL_PREF: nomic-embed-text:latest
+
+      # ChromaDB
+      CHROMA_BASE_URL: http://chromadb:8000
+      CHROMA_COLLECTION: rag-documents
+
+      # RAG retrieval
+      RAG_MAX_RESULTS: 5
+      RAG_MIN_SCORE: "0.7"
+      RAG_CHUNK_SIZE: 500
+      RAG_CHUNK_OVERLAP: 50
+    restart: unless-stopped
+
+volumes:
+  chroma_data:
