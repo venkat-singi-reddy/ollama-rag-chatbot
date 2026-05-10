@@ -1,0 +1,12 @@
+server:
+  port: ${SERVER_PORT:8080}
+
+anythingllm:
+  llm-provider: ${LLM_PROVIDER:ollama}
+  ollama-base-path: ${OLLAMA_BASE_PATH:http://localhost:11434}
+  ollama-model-pref: ${OLLAMA_MODEL_PREF:llama3.1}
+  ollama-model-token-limit: ${OLLAMA_MODEL_TOKEN_LIMIT:4096}
+  embedding-engine: ${EMBEDDING_ENGINE:ollama}
+  embedding-base-path: ${EMBEDDING_BASE_PATH:http://localhost:11434}
+  embedding-model-pref: ${EMBEDDING_MODEL_PREF:nomic-embed-text:latest}
+  vector-db: ${VECTOR_DB:lancedb}
