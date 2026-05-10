@@ -1,5 +1,6 @@
 package com.ollama.ragchatbot.service;
 
+import com.ollama.ragchatbot.config.AnythingLlmProperties;
 import dev.langchain4j.data.document.Document;
 import dev.langchain4j.data.document.DocumentSplitter;
 import dev.langchain4j.data.document.Metadata;
@@ -10,7 +11,6 @@ import dev.langchain4j.data.segment.TextSegment;
 import dev.langchain4j.model.embedding.EmbeddingModel;
 import dev.langchain4j.store.embedding.EmbeddingStore;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -42,11 +42,12 @@ public class DocumentIngestionService {
     public DocumentIngestionService(
             EmbeddingModel embeddingModel,
             EmbeddingStore<TextSegment> embeddingStore,
-            @Value("${RAG_CHUNK_SIZE:500}") int chunkSize,
-            @Value("${RAG_CHUNK_OVERLAP:50}") int chunkOverlap) {
+            AnythingLlmProperties properties) {
 
         this.embeddingModel = embeddingModel;
         this.embeddingStore = embeddingStore;
+        int chunkSize    = properties.ragChunkSize()    != null ? properties.ragChunkSize()    : 500;
+        int chunkOverlap = properties.ragChunkOverlap() != null ? properties.ragChunkOverlap() : 50;
         this.splitter = DocumentSplitters.recursive(chunkSize, chunkOverlap);
     }
 

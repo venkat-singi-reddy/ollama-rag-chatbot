@@ -34,7 +34,9 @@ import static org.assertj.core.api.Assertions.assertThat;
         "anythingllm.chroma-base-url=http://localhost:8000",
         "anythingllm.chroma-collection=test-collection",
         "anythingllm.rag-max-results=5",
-        "anythingllm.rag-min-score=0.7"
+        "anythingllm.rag-min-score=0.7",
+        "anythingllm.rag-chunk-size=500",
+        "anythingllm.rag-chunk-overlap=50"
 })
 class AnythingLlmPropertiesTest {
 
@@ -66,6 +68,8 @@ class AnythingLlmPropertiesTest {
         assertThat(properties.chromaCollection()).isEqualTo("test-collection");
         assertThat(properties.ragMaxResults()).isEqualTo(5);
         assertThat(properties.ragMinScore()).isEqualTo(0.7);
+        assertThat(properties.ragChunkSize()).isEqualTo(500);
+        assertThat(properties.ragChunkOverlap()).isEqualTo(50);
     }
 }
 

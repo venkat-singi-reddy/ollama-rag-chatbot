@@ -36,7 +36,11 @@ public record AnythingLlmProperties(
          * Minimum cosine-similarity score (0–1) a chunk must have to be included
          * in the context window.
          */
-        Double ragMinScore
+        Double ragMinScore,
+        /** Maximum number of characters per document chunk. */
+        Integer ragChunkSize,
+        /** Number of overlapping characters between consecutive chunks. */
+        Integer ragChunkOverlap
 
 ) {
 }

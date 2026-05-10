@@ -21,3 +21,5 @@ anythingllm:
   # RAG retrieval settings
   rag-max-results: ${RAG_MAX_RESULTS:5}
   rag-min-score: ${RAG_MIN_SCORE:0.7}
+  rag-chunk-size: ${RAG_CHUNK_SIZE:500}
+  rag-chunk-overlap: ${RAG_CHUNK_OVERLAP:50}

@@ -113,8 +113,8 @@ All settings can be overridden via environment variables:
 | `CHROMA_COLLECTION` | `rag-documents` | Chroma collection name |
 | `RAG_MAX_RESULTS` | `5` | Top-k chunks returned |
 | `RAG_MIN_SCORE` | `0.7` | Minimum similarity score (0–1) |
-| `RAG_CHUNK_SIZE` | `500` | Characters per chunk |
-| `RAG_CHUNK_OVERLAP` | `50` | Overlap between chunks |
+| `RAG_CHUNK_SIZE` | `500` | Characters per document chunk |
+| `RAG_CHUNK_OVERLAP` | `50` | Overlap characters between chunks |
 | `SERVER_PORT` | `8080` | HTTP port |
 
 ---
