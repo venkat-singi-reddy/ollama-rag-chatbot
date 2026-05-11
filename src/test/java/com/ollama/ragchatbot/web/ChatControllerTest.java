@@ -3,6 +3,8 @@ package com.ollama.ragchatbot.web;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ollama.ragchatbot.config.AnythingLlmProperties;
 import com.ollama.ragchatbot.service.ChatService;
+import com.ollama.ragchatbot.service.DocumentIngestionService;
+import com.ollama.ragchatbot.service.RagChatService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +28,12 @@ class ChatControllerTest {
 
     @MockBean
     private ChatService chatService;
+
+    @MockBean
+    private RagChatService ragChatService;
+
+    @MockBean
+    private DocumentIngestionService documentIngestionService;
 
     @MockBean
     private AnythingLlmProperties anythingLlmProperties;
@@ -65,3 +73,4 @@ class ChatControllerTest {
                 .andExpect(status().isBadRequest());
     }
 }
+
